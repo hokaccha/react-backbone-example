@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>React Practice</title>
+    <style>
+      .complete .label {
+          color: #ccc;
+          text-decoration: line-through;
+      }
+
+      li {
+          list-style-type: none;
+          margin-left: -20px;
+      }
+
+      li .label {
+          margin-left: 10px;
+      }
+      
+      li .removeBtn {
+        display: none;
+        color: #A31723;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      li:hover .removeBtn {
+        display: inline-block;
+      }
+
+      li .removeBtn:hover {
+        color: #D11D31;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="workspace"></div>
+    <script src="underscore.js"></script>
+    <script src="backbone.js"></script>
+    <script src="react-0.12.1.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
