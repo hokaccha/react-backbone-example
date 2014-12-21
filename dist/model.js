@@ -10,7 +10,8 @@ var TodoModel = Backbone.Model.extend({
 });
 
 var TodoCollection = Backbone.Collection.extend({
-  model: TodoModel
+  model: TodoModel,
+  url: '/todos',
 });
 
 window.Model = { TodoModel:TodoModel, TodoCollection:TodoCollection };

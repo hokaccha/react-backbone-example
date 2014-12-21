@@ -37,7 +37,7 @@ var TodoForm = React.createClass({
     var label = textElement.value.trim();
     if (!label) return;
 
-    this.props.todos.add({ label });
+    this.props.todos.create({ label });
     textElement.value = '';
   },
 
@@ -69,7 +69,7 @@ var TodoListItem = React.createClass({
 
   onChangeComplete() {
     var checkbox = this.refs.complete.getDOMNode();
-    this.props.todo.set('complete', checkbox.checked);
+    this.props.todo.save('complete', checkbox.checked);
   },
 
   onClickRemove() {

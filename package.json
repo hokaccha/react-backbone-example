@@ -1,0 +1,13 @@
+{
+  "name": "react-backbone-example",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.10.0",
+    "express": "^4.10.6",
+    "react-tools": "^0.12.2"
+  },
+  "scripts": {
+    "watch": "jsx --watch  --harmony src/ dist/",
+    "server": "node server.js"
+  }
+}
