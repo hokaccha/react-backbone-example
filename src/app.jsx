@@ -1,17 +1,19 @@
+/*jshint esnext:true*/
+
 var Todo = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
       lastId: 3,
       items: [
-        {id: 1, label: 'hoge', complete: false},
-        {id: 2, label: 'fuga', complete: true},
-        {id: 3, label: 'bar',  complete: false},
+        { id: 1, label: 'hoge', complete: false },
+        { id: 2, label: 'fuga', complete: true },
+        { id: 3, label: 'bar',  complete: false },
       ]
     };
   },
 
-  changeComplete: function(item, completed) {
-    var items = this.state.items.map(function(_item) {
+  changeComplete(item, completed) {
+    var items = this.state.items.map((_item) => {
       if (item === _item) {
         item.complete = completed;
       }
@@ -19,33 +21,27 @@ var Todo = React.createClass({
       return _item;
     });
 
-    this.setState({ items: items });
+    this.setState({ items });
   },
 
-  addTodo: function(text) {
-    var id = this.state.lastId + 1;
-
-    var todo = {
-      id: id,
+  addTodo(text) {
+    var lastId = this.state.lastId + 1;
+    var items = this.state.items.concat({
+      id: lastId,
       label: text,
       complete: false
-    };
-
-    this.setState({
-      lastId: id,
-      items: this.state.items.concat(todo)
-    });
-  },
-
-  removeTodo: function(item) {
-    var items = this.state.items.filter(function(_item) {
-      return item !== _item;
     });
 
-    this.setState({ items: items });
+    this.setState({ lastId, items });
   },
 
-  render: function() {
+  removeTodo(item) {
+    var items = this.state.items.filter((_item) => item !== _item);
+
+    this.setState({ items });
+  },
+
+  render() {
     return (
       <div>
         <TodoForm onSubmit={this.addTodo} />
@@ -58,8 +54,9 @@ var Todo = React.createClass({
 });
 
 var TodoForm = React.createClass({
-  onSubmit: function(e) {
+  onSubmit(e) {
     e.preventDefault();
+
     var textElement = this.refs.text.getDOMNode();
     var value = textElement.value.trim();
     if (!value) return;
@@ -68,45 +65,49 @@ var TodoForm = React.createClass({
     textElement.value = '';
   },
 
-  render: function() {
-    return <form onSubmit={this.onSubmit}><input ref="text" type="text" /></form>;
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input ref="text" type="text" />
+      </form>
+    );
   }
 });
 
 var TodoList = React.createClass({
-  render: function() {
+  render() {
     return (
       <ul>
-        {this.props.items.map(function(item) {
+        {this.props.items.map((item) => {
           return <TodoListItem
             key={item.id}
             item={item}
             onChangeComplete={this.props.onChangeComplete}
             onRemoveItem={this.props.onRemoveItem}
           />;
-        }.bind(this))}
+        })}
       </ul>
     );
   }
 });
 
 var TodoListItem = React.createClass({
-  completeClassName: function() {
+  completeClassName() {
     return this.props.item.complete ? 'complete' : 'yet';
   },
 
-  onChangeComplete: function() {
+  onChangeComplete() {
     var checkbox = this.refs.complete.getDOMNode();
     this.props.onChangeComplete(this.props.item, checkbox.checked);
   },
 
-  onClickRemove: function() {
+  onClickRemove() {
     if (window.confirm('消すよ？')) {
       this.props.onRemoveItem(this.props.item);
     }
   },
 
-  render: function() {
+  render() {
     var item = this.props.item;
 
     return (
@@ -116,7 +117,6 @@ var TodoListItem = React.createClass({
                onChange={this.onChangeComplete}
                defaultChecked={this.props.item.complete} />
         <span className="label">{item.label}</span>
-
         <span className="removeBtn" onClick={this.onClickRemove}>✖</span>
       </li>
     );

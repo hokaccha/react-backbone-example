@@ -1,17 +1,19 @@
+/*jshint esnext:true*/
+
 var Todo = React.createClass({displayName: "Todo",
-  getInitialState: function() {
+  getInitialState:function() {
     return {
       lastId: 3,
       items: [
-        {id: 1, label: 'hoge', complete: false},
-        {id: 2, label: 'fuga', complete: true},
-        {id: 3, label: 'bar',  complete: false},
+        { id: 1, label: 'hoge', complete: false },
+        { id: 2, label: 'fuga', complete: true },
+        { id: 3, label: 'bar',  complete: false },
       ]
     };
   },
 
-  changeComplete: function(item, completed) {
-    var items = this.state.items.map(function(_item) {
+  changeComplete:function(item, completed) {
+    var items = this.state.items.map(function(_item)  {
       if (item === _item) {
         item.complete = completed;
       }
@@ -19,33 +21,27 @@ var Todo = React.createClass({displayName: "Todo",
       return _item;
     });
 
-    this.setState({ items: items });
+    this.setState({ items:items });
   },
 
-  addTodo: function(text) {
-    var id = this.state.lastId + 1;
-
-    var todo = {
-      id: id,
+  addTodo:function(text) {
+    var lastId = this.state.lastId + 1;
+    var items = this.state.items.concat({
+      id: lastId,
       label: text,
       complete: false
-    };
-
-    this.setState({
-      lastId: id,
-      items: this.state.items.concat(todo)
-    });
-  },
-
-  removeTodo: function(item) {
-    var items = this.state.items.filter(function(_item) {
-      return item !== _item;
     });
 
-    this.setState({ items: items });
+    this.setState({ lastId:lastId, items:items });
   },
 
-  render: function() {
+  removeTodo:function(item) {
+    var items = this.state.items.filter(function(_item)  {return item !== _item;});
+
+    this.setState({ items:items });
+  },
+
+  render:function() {
     return (
       React.createElement("div", null, 
         React.createElement(TodoForm, {onSubmit: this.addTodo}), 
@@ -58,8 +54,9 @@ var Todo = React.createClass({displayName: "Todo",
 });
 
 var TodoForm = React.createClass({displayName: "TodoForm",
-  onSubmit: function(e) {
+  onSubmit:function(e) {
     e.preventDefault();
+
     var textElement = this.refs.text.getDOMNode();
     var value = textElement.value.trim();
     if (!value) return;
@@ -68,16 +65,20 @@ var TodoForm = React.createClass({displayName: "TodoForm",
     textElement.value = '';
   },
 
-  render: function() {
-    return React.createElement("form", {onSubmit: this.onSubmit}, React.createElement("input", {ref: "text", type: "text"}));
+  render:function() {
+    return (
+      React.createElement("form", {onSubmit: this.onSubmit}, 
+        React.createElement("input", {ref: "text", type: "text"})
+      )
+    );
   }
 });
 
 var TodoList = React.createClass({displayName: "TodoList",
-  render: function() {
+  render:function() {
     return (
       React.createElement("ul", null, 
-        this.props.items.map(function(item) {
+        this.props.items.map(function(item)  {
           return React.createElement(TodoListItem, {
             key: item.id, 
             item: item, 
@@ -91,22 +92,22 @@ var TodoList = React.createClass({displayName: "TodoList",
 });
 
 var TodoListItem = React.createClass({displayName: "TodoListItem",
-  completeClassName: function() {
+  completeClassName:function() {
     return this.props.item.complete ? 'complete' : 'yet';
   },
 
-  onChangeComplete: function() {
+  onChangeComplete:function() {
     var checkbox = this.refs.complete.getDOMNode();
     this.props.onChangeComplete(this.props.item, checkbox.checked);
   },
 
-  onClickRemove: function() {
+  onClickRemove:function() {
     if (window.confirm('消すよ？')) {
       this.props.onRemoveItem(this.props.item);
     }
   },
 
-  render: function() {
+  render:function() {
     var item = this.props.item;
 
     return (
@@ -116,7 +117,6 @@ var TodoListItem = React.createClass({displayName: "TodoListItem",
                onChange: this.onChangeComplete, 
                defaultChecked: this.props.item.complete}), 
         React.createElement("span", {className: "label"}, item.label), 
-
         React.createElement("span", {className: "removeBtn", onClick: this.onClickRemove}, "✖")
       )
     );
