@@ -7,7 +7,7 @@
     "react-tools": "^0.12.2"
   },
   "scripts": {
-    "watch": "jsx --watch  --harmony src/ dist/",
+    "watch": "jsx --watch  --harmony src/ public/js/",
     "server": "node server.js"
   }
 }
