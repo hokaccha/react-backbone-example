@@ -44,7 +44,7 @@ var TodoForm = React.createClass({
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <input ref="text" type="text" />
+        <input ref="text" type="text" placeholder="Input Your Todo" />
       </form>
     );
   }
