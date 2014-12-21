@@ -97,5 +97,3 @@ var TodoListItem = React.createClass({
 window.View = { Todo };
 
 })();
-
-/* vim: set ft=javascript.jsx : */
